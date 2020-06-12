@@ -36,6 +36,10 @@ impl<S: ToString> Holiday<S> {
     pub fn name(&self) -> &S {
         &self.name
     }
+
+    pub fn iter(&self) -> HolidayIter<Self> {
+        self.into_iter()
+    }
 }
 
 /// Holiday Date type
@@ -48,6 +52,12 @@ pub enum HolidayDate {
     NthDate(NthWeekdayOfMonth),
 }
 
+impl HolidayDate {
+    pub fn iter(&self) -> HolidayIter<Self> {
+        self.into_iter()
+    }
+}
+
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub struct DayOfMonth {
     pub day: u32,
@@ -57,6 +67,10 @@ pub struct DayOfMonth {
 impl DayOfMonth {
     pub fn new(day: u32, month: u32) -> Self {
         DayOfMonth { day, month }
+    }
+
+    pub fn iter(&self) -> HolidayIter<Self> {
+        self.into_iter()
     }
 }
 
@@ -75,6 +89,10 @@ impl NthWeekdayOfMonth {
             weekday,
             month,
         }
+    }
+
+    pub fn iter(&self) -> HolidayIter<Self> {
+        self.into_iter()
     }
 }
 

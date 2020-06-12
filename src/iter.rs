@@ -71,18 +71,43 @@ impl<'h, H: BeforeAfterDate> DoubleEndedIterator for HolidayIter<'h, H> {
     }
 }
 
-impl<'h, S: ToString> IntoIterator for &'h Holiday<S> {
-    type Item = NaiveDate;
-    type IntoIter = HolidayIter<'h, Holiday<S>>;
-    fn into_iter(self) -> Self::IntoIter {
-        HolidayIter {
-            holiday: &self,
-            first: self.first_date(),
-            last: self.last_date(),
-            current: self.first_date(),
+macro_rules! impl_holiday_into_iter {
+    ($ty:ty) => {
+        impl<'h> IntoIterator for &'h $ty {
+            type Item = NaiveDate;
+            type IntoIter = HolidayIter<'h, $ty>;
+            fn into_iter(self) -> Self::IntoIter {
+                HolidayIter {
+                    holiday: &self,
+                    first: self.first_date(),
+                    last: self.last_date(),
+                    current: self.first_date(),
+                }
+            }
+        }
+    };
+
+    ($ty:ty, $id:ident: $trait:ident) => {
+        impl<'h, $id: $trait> IntoIterator for &'h $ty {
+            type Item = NaiveDate;
+            type IntoIter = HolidayIter<'h, $ty>;
+            fn into_iter(self) -> Self::IntoIter {
+                HolidayIter {
+                    holiday: &self,
+                    first: self.first_date(),
+                    last: self.last_date(),
+                    current: self.first_date(),
+                }
+            }
         }
     }
 }
+
+
+impl_holiday_into_iter!(Holiday<S>, S: ToString);
+impl_holiday_into_iter!(HolidayDate);
+impl_holiday_into_iter!(DayOfMonth);
+impl_holiday_into_iter!(NthWeekdayOfMonth);
 
 #[cfg(test)]
 mod test {
