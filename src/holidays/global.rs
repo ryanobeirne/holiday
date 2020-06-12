@@ -9,6 +9,10 @@ holiday_const!(
     ST_PATRICKS_DAY, "St. Patrick's Day", 3, 17
 );
 holiday_const!(
+    /// Christmas Eve: December 24
+    CHRISTMAS_EVE, "Christmas Eve", 12, 24
+);
+holiday_const!(
     /// December 25
     CHRISTMAS, "Christmas", 12, 25
 );

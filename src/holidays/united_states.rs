@@ -18,12 +18,16 @@ holiday_const!(
     PRESIDENTS_DAY, "President's Day", Third, Weekday::Mon, 2
 );
 holiday_const!(
+    /// Valentine's Day: February 14
+    VALENTINES_DAY, "Valentine's Day", 2, 14
+);
+holiday_const!(
     /// Daylight Saving Time Starts: 2nd Sunday in March
     DST_START, "Daylight Saving Time Starts", Second, Weekday::Sun, 3
 );
 holiday_const!(
-    /// Valentine's Day: February 14
-    VALENTINES_DAY, "Valentine's Day", 2, 14
+    /// April Fool's Day: April 1
+    APRIL_FOOLS_DAY, "April Fool's Day", 4, 1
 );
 holiday_const!(
     /// Kentucky Derby: 1st Saturday in May
@@ -58,6 +62,10 @@ holiday_const!(
     HALLOWEEN, "Halloween", 10, 31
 );
 holiday_const!(
+    /// Columbus Day: 2nd Monday in October
+    COLUMBUS_DAY, "Columbus Day", Second, Weekday::Mon, 10
+);
+holiday_const!(
     /// Veteran's Day: November 11
     VETERANS_DAY, "Veteran's Day", 11, 11
 );
@@ -72,10 +80,34 @@ holiday_const!(
 
 #[test]
 fn holiday_eq() {
-    assert_eq!(THANKSGIVING,  NthWeekdayOfMonth::new(4, Weekday::Thu, 11));
-    assert_eq!(THANKSGIVING,  NaiveDate::from_ymd(2020, 11, 26));
-    assert_eq!(THANKSGIVING,  NaiveDate::from_ymd(2021, 11, 25));
-    assert_eq!(HALLOWEEN,  NaiveDate::from_ymd(2020, 10, 31));
-    assert_eq!(HALLOWEEN,  NaiveDate::from_ymd(2021, 10, 31));
+    assert_eq!(THANKSGIVING, NthWeekdayOfMonth::new(4, Weekday::Thu, 11));
+    assert_eq!(THANKSGIVING, NaiveDate::from_ymd(2020, 11, 26));
+    assert_eq!(THANKSGIVING, NaiveDate::from_ymd(2021, 11, 25));
+    assert_eq!(HALLOWEEN, NaiveDate::from_ymd(2020, 10, 31));
+    assert_eq!(HALLOWEEN, NaiveDate::from_ymd(2021, 10, 31));
 }
 
+#[test]
+fn holiday_ord() {
+    let mut vec = vec![
+        super::global::NEW_YEARS_EVE,
+        THANKSGIVING,
+        super::global::NEW_YEARS_DAY,
+        HALLOWEEN,
+        super::global::CHRISTMAS,
+    ];
+
+    vec.sort();
+
+    dbg!(&vec);
+
+    let exp = vec![
+        super::global::NEW_YEARS_DAY,
+        HALLOWEEN,
+        THANKSGIVING,
+        super::global::CHRISTMAS,
+        super::global::NEW_YEARS_EVE,
+    ];
+
+    assert_eq!(vec, exp);
+}

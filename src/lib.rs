@@ -1,12 +1,17 @@
 use chrono::prelude::*;
 
+mod eq;
 pub mod before_after;
 pub mod holidays;
 pub mod iter;
 
 pub use before_after::*;
 pub use iter::*;
+use HolidayDate::*;
 
+/// An annually repeating calendar date.
+/// Can be either a fixed date (e.g., April 1) or an nth weekday of the month (e.g., 4th Thursday
+/// in November)
 #[derive(Debug, Clone, Copy)]
 pub struct Holiday<S: ToString> {
     name: S,
@@ -33,27 +38,8 @@ impl<S: ToString> Holiday<S> {
     }
 }
 
-impl<S: ToString> PartialEq<NaiveDate> for Holiday<S> {
-    fn eq(&self, date: &NaiveDate) -> bool {
-        match &self.date {
-            HolidayDate::FixedDate(fixed) => fixed == date,
-            HolidayDate::NthDate(nth) => nth == date,
-        }
-    }
-}
-
-impl<S: ToString> PartialEq<NthWeekdayOfMonth> for Holiday<S> {
-    fn eq(&self, nth: &NthWeekdayOfMonth) -> bool {
-        if let HolidayDate::NthDate(self_nth) = self.date {
-            &self_nth == nth
-        } else {
-            false
-        }
-    }
-}
-
 /// Holiday Date type
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum HolidayDate {
     /// Fixed date. Example: "October 31"
     FixedDate(DayOfMonth),
@@ -64,13 +50,13 @@ pub enum HolidayDate {
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub struct DayOfMonth {
-    month: u32,
-    day: u32,
+    pub day: u32,
+    pub month: u32,
 }
 
-impl PartialEq<NaiveDate> for DayOfMonth {
-    fn eq(&self, date: &NaiveDate) -> bool {
-        self.month == date.month() && self.day == date.day()
+impl DayOfMonth {
+    pub fn new(day: u32, month: u32) -> Self {
+        DayOfMonth { day, month }
     }
 }
 
@@ -117,12 +103,6 @@ impl From<NaiveDate> for NthWeekdayOfMonth {
     }
 }
 
-impl PartialEq<NaiveDate> for NthWeekdayOfMonth {
-    fn eq(&self, date: &NaiveDate) -> bool {
-        self == &NthWeekdayOfMonth::from(*date)
-    }
-}
-
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Copy, Clone)]
 pub enum NthWeekday {
     First  = 1,
@@ -148,16 +128,6 @@ impl From<u32> for NthWeekday {
     }
 }
 
-impl PartialEq<u32> for NthWeekday {
-    fn eq(&self, u: &u32) -> bool {
-        use NthWeekday::*;
-        match (self, u) {
-            (First, 1) | (Second, 2) | (Third, 3) | (Fourth, 4) | (Fifth, 5) => true,
-            _ => false
-        }
-    }
-}
-
 #[test]
 fn nth_weekday() {
     dbg!(NthWeekday::Last as u32);
@@ -172,4 +142,3 @@ fn tgives() {
 
     dbg!(NthWeekdayOfMonth::from(NaiveDate::from_ymd(2020, 6, 8)));
 }
-

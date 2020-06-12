@@ -58,7 +58,7 @@ impl<'h, H: BeforeAfterDate> Iterator for HolidayIter<'h, H> {
         }
     }
 }
-            
+
 impl<'h, H: BeforeAfterDate> DoubleEndedIterator for HolidayIter<'h, H> {
     fn next_back(&mut self) -> Option<Self::Item> {
         let prev = self.holiday.before(&self.current);
@@ -94,7 +94,9 @@ mod test {
         dbg!(THANKSGIVING.first_date());
         dbg!(THANKSGIVING.last_date());
 
-        let mut tgives = THANKSGIVING.into_iter().at(NaiveDate::from_ymd(2020, 11, 1));
+        let mut tgives = THANKSGIVING
+            .into_iter()
+            .at(NaiveDate::from_ymd(2020, 11, 1));
         assert_eq!(tgives.next(), Some(NaiveDate::from_ymd(2020, 11, 26)));
         assert_eq!(tgives.next(), Some(NaiveDate::from_ymd(2021, 11, 25)));
         assert_eq!(tgives.next(), Some(NaiveDate::from_ymd(2022, 11, 24)));
@@ -107,7 +109,8 @@ mod test {
     fn tgives_count() {
         let mut dates = std::collections::HashMap::new();
 
-        for date in THANKSGIVING.into_iter()
+        for date in THANKSGIVING
+            .into_iter()
             .at(NaiveDate::from_ymd(2020, 11, 1))
             .ending_at(NaiveDate::from_ymd(12020, 11, 30))
         {
@@ -120,9 +123,10 @@ mod test {
             let pct = *count as f64 / sum as f64 * 100.0;
             println!("DAY: {}: {:.2}%", day, pct);
         }
-        
-        let most_days = dates.into_iter()
-            .max_by(|(_k0,v0),(_k1,v1)| v0.cmp(v1))
+
+        let most_days = dates
+            .into_iter()
+            .max_by(|(_k0, v0), (_k1, v1)| v0.cmp(v1))
             .unwrap()
             .0;
 

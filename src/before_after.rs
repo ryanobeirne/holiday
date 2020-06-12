@@ -90,13 +90,18 @@ impl BeforeAfterDate for NthWeekdayOfMonth {
             } else {
                 if check_date.month() < self.month {
                     check_date = check_date
-                        .with_month(self.month).expect("invalid month: after::lt")
-                        .with_day(1).expect("invalid day: after::lt");
+                        .with_month(self.month)
+                        .expect("invalid month: after::lt")
+                        .with_day(1)
+                        .expect("invalid day: after::lt");
                 } else if check_date.month() > self.month {
                     check_date = check_date
-                        .with_month(self.month).expect("invalid month: after::gt")
-                        .with_day(1).expect("invalid day")
-                        .with_year(check_date.year() + 1).expect("invalid year: after::gt");
+                        .with_month(self.month)
+                        .expect("invalid month: after::gt")
+                        .with_day(1)
+                        .expect("invalid day")
+                        .with_year(check_date.year() + 1)
+                        .expect("invalid year: after::gt");
                 } else {
                     check_date = check_date.succ();
                 }
@@ -112,13 +117,17 @@ impl BeforeAfterDate for NthWeekdayOfMonth {
             } else {
                 if check_date.month() > self.month {
                     check_date = check_date
-                        .with_month(self.month).expect("invalid month: before::gt")
+                        .with_month(self.month)
+                        .expect("invalid month: before::gt")
                         .last_day_of_month();
                 } else if check_date.month() < self.month {
                     check_date = check_date
-                        .with_day(1).expect("invalid day: before::lt")
-                        .with_month(self.month).expect("invalid month: before::lt")
-                        .with_year(check_date.year() - 1).expect("invalid year: before::lt")
+                        .with_day(1)
+                        .expect("invalid day: before::lt")
+                        .with_month(self.month)
+                        .expect("invalid month: before::lt")
+                        .with_year(check_date.year() - 1)
+                        .expect("invalid year: before::lt")
                         .last_day_of_month();
                 } else {
                     check_date = check_date.pred();
