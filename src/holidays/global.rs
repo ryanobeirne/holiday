@@ -1,3 +1,5 @@
+//! Globally recognized holidays
+
 use crate::*;
 
 holiday_const!(

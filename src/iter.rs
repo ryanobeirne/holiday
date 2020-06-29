@@ -1,6 +1,9 @@
+//! Module provides an iterator for a `Holiday`
+
 use crate::*;
 
 #[derive(Debug)]
+/// An iterator over the occurrences of a Holiday
 pub struct HolidayIter<'h, H: BeforeAfterDate> {
     holiday: &'h H,
     first: NaiveDate,

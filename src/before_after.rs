@@ -1,3 +1,7 @@
+//! # BeforeAfterDate
+//!
+//! The `BeforeAfterDate` trait 
+
 use crate::*;
 
 /// Trait to determine the next and previous occurrence of dates (successor and predecessor). The
@@ -139,6 +143,7 @@ impl BeforeAfterDate for NthWeekdayOfMonth {
 
 /// Determine the last day in a given date's month
 pub trait LastDayOfMonth: Datelike {
+    /// Finds the last date in a given calendar month
     fn last_day_of_month(&self) -> NaiveDate;
 }
 
@@ -155,6 +160,7 @@ impl<D: Datelike> LastDayOfMonth for D {
 
 /// Determine the first day in a given date's month
 pub trait FirstDayOfMonth: Datelike {
+    /// Finds the first date in a given calendar month
     fn first_day_of_month(&self) -> NaiveDate;
 }
 

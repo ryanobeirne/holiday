@@ -1,3 +1,5 @@
+//! Holidays in the United States
+
 use crate::*;
 use NthWeekday::*;
 
