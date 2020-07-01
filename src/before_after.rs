@@ -4,9 +4,8 @@
 
 use crate::*;
 
-/// Trait to determine the next and previous occurrence of dates (successor and predecessor). The
-/// next occurrence including the current date, the previous occurrence excluding the current
-/// date.
+/// Trait to determine the next and previous occurrence of dates (successor and predecessor).
+/// The next occurrence should include the current date, the previous occurrence should exclude the current date.
 pub trait BeforeAfterDate {
     /// The next occurrence after a given date
     fn after(&self, date: &NaiveDate) -> NaiveDate;

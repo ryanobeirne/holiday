@@ -1,8 +1,14 @@
 [package]
 name = "holiday"
+description = "A rust library for defining annually repeating dates holidays."
 version = "0.1.0"
 authors = ["Ryan O'Beirne <ryanobeirne@ryanobeirne.com>"]
 edition = "2018"
+license = "MIT"
+documentation = "https://docs.rs/holiday"
+homepage = "https://gitlab.com/ryanobeirne/deltae"
+repository = "https://gitlab.com/ryanobeirne/deltae.git"
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

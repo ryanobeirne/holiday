@@ -2,7 +2,7 @@
 
 //! # holiday
 //!
-//! A library for creating annually repeating dates and holidays
+//! A library for defining annually repeating dates and holidays
 //!
 //! ```rust
 //! use holiday::*;

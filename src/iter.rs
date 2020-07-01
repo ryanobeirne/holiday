@@ -1,4 +1,4 @@
-//! Module provides an iterator for a `Holiday`
+//! Module provides an iterator over the annual occurrences of a `Holiday`
 
 use crate::*;
 
