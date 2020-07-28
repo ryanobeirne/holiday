@@ -169,6 +169,40 @@ impl<D: Datelike> FirstDayOfMonth for D {
     }
 }
 
+/// Trait to determine if a NaiveDate is the last weekday of the month
+pub trait IsLastWeekday: Datelike {
+    /// Determine if a date is the last weekday of the month
+    fn is_last_weekday(self) -> bool {
+        let mut count = 0;
+        let mut date = NaiveDate::from_ymd(self.year(), self.month(), self.day()).succ();
+        while date <= self.last_day_of_month().succ() {
+            if date.weekday() == self.weekday() {
+                count += 1;
+            }
+            date = date.succ();
+        }
+
+        count == 0
+    }
+}
+
+impl<D: Datelike> IsLastWeekday for D {}
+
+#[test]
+fn test_is_last_weekday() {
+    let date = NaiveDate::from_ymd(2020, 7, 28);
+    assert!(date.is_last_weekday());
+
+    let date = NaiveDate::from_ymd(2020, 7, 21);
+    assert!(!date.is_last_weekday());
+
+    let date = NaiveDate::from_ymd(2020, 12, 31);
+    assert!(date.is_last_weekday());
+
+    let date = NaiveDate::from_ymd(2021, 1, 1);
+    assert!(!date.is_last_weekday());
+}
+
 #[test]
 fn test_last_day_of_month() {
     let date = NaiveDate::from_ymd(2020, 12, 31);

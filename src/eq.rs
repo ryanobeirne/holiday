@@ -131,7 +131,11 @@ impl Ord for NthWeekdayOfMonth {
 
 impl PartialEq<NaiveDate> for NthWeekdayOfMonth {
     fn eq(&self, date: &NaiveDate) -> bool {
-        self == &NthWeekdayOfMonth::from(*date)
+        if self.nth == NthWeekday::Last && date.weekday() == self.weekday {
+            date.is_last_weekday()
+        } else {
+            self == &NthWeekdayOfMonth::from(*date)
+        }
     }
 }
 

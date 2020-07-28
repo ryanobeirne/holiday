@@ -196,13 +196,6 @@ impl From<u32> for NthWeekday {
 }
 
 #[test]
-fn last_weekday() {
-    let last = NthWeekday::Last as u32;
-    dbg!(&last);
-    assert_eq!(last, 6);
-}
-
-#[test]
 fn tgives() {
     let tgives = NthWeekdayOfMonth::new(4, Weekday::Thu, 11);
 
