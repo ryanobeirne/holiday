@@ -46,7 +46,7 @@ impl<S: ToString> Holiday<S> {
     }
 
     /// Creates a new nth weekday of the month Holiday
-    pub fn new_nth(name: S, nth: u32, weekday: Weekday, month: u32) -> Self {
+    pub fn new_nth<N: Into<NthWeekday>>(name: S, nth: N, weekday: Weekday, month: u32) -> Self {
         Holiday {
             name,
             date: HolidayDate::NthDate(NthWeekdayOfMonth::new(nth, weekday, month)),
@@ -196,8 +196,10 @@ impl From<u32> for NthWeekday {
 }
 
 #[test]
-fn nth_weekday() {
-    dbg!(NthWeekday::Last as u32);
+fn last_weekday() {
+    let last = NthWeekday::Last as u32;
+    dbg!(&last);
+    assert_eq!(last, 6);
 }
 
 #[test]
