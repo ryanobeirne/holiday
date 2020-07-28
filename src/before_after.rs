@@ -201,6 +201,12 @@ fn test_is_last_weekday() {
 
     let date = NaiveDate::from_ymd(2021, 1, 1);
     assert!(!date.is_last_weekday());
+
+    let holiday = Holiday::new_nth("Last Tuesday in July", NthWeekday::Last, Weekday::Tue, 7);
+    let holiday2 = Holiday::new_nth("Fourth Tuesday in July", NthWeekday::Fourth, Weekday::Tue, 7);
+    let date = NaiveDate::from_ymd(2020, 7, 28);
+    assert_eq!(holiday, date);
+    assert_eq!(holiday2, date);
 }
 
 #[test]
