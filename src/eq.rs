@@ -149,3 +149,26 @@ impl PartialEq<u32> for NthWeekday {
     }
 }
 
+impl PartialEq<u32> for Month {
+    fn eq(&self, u: &u32) -> bool {
+        *self as u32 == *u
+    }
+}
+
+impl PartialEq<Month> for u32 {
+    fn eq(&self, m: &Month) -> bool {
+        m == self
+    }
+}
+
+impl PartialOrd<u32> for Month {
+    fn partial_cmp(&self, u: &u32) -> Option<Ordering> {
+        Some((*self as u32).cmp(u))
+    }
+}
+
+impl PartialOrd<Month> for u32 {
+    fn partial_cmp(&self, m: &Month) -> Option<Ordering> {
+        Some((*self).cmp(&(*m as u32)))
+    }
+}

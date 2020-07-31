@@ -10,7 +10,7 @@
 //! use chrono::{Weekday, NaiveDate};
 //!
 //! // Pastover: First Friday in April
-//! let pastover = Holiday::new_nth("Pastover", 1, Weekday::Fri, 4);
+//! let pastover = Holiday::new_nth("Pastover", First, Weekday::Fri, 4);
 //! assert_eq!(pastover.in_year(2021), NaiveDate::from_ymd(2021, 4, 2));
 //! assert_eq!(pastover, NaiveDate::from_ymd(2021, 4, 2));
 //! assert_eq!(pastover, NaiveDate::from_ymd(2022, 4, 1));
@@ -27,6 +27,7 @@ pub use before_after::*;
 pub use iter::*;
 use HolidayDate::*;
 pub use NthWeekday::*;
+pub use Month::*;
 
 /// An annually repeating calendar date.
 /// Can be either a fixed date (e.g., April 1) or an nth weekday of the month (e.g., 4th Thursday
@@ -39,10 +40,10 @@ pub struct Holiday<S> {
 
 impl<S: ToString> Holiday<S> {
     /// Creates a new fixed date holiday
-    pub fn new_fixed(name: S, month: u32, day: u32) -> Self {
+    pub fn new_fixed<M: Into<Month>>(name: S, month: M, day: u32) -> Self {
         Holiday {
             name,
-            date: HolidayDate::FixedDate(DayOfMonth { month, day }),
+            date: HolidayDate::FixedDate(DayOfMonth { month: month.into(), day }),
         }
     }
 
@@ -102,13 +103,13 @@ pub struct DayOfMonth {
     /// The day of the month
     pub day: u32,
     /// The month (January = 1)
-    pub month: u32,
+    pub month: Month,
 }
 
 impl DayOfMonth {
     /// Create a new DayOfMonth
-    pub fn new(day: u32, month: u32) -> Self {
-        DayOfMonth { day, month }
+    pub fn new<M: Into<Month>>(day: u32, month: M) -> Self {
+        DayOfMonth { day, month: month.into() }
     }
 
     /// Returns an iterator over the ocurrences of the DayOfMonth
@@ -122,16 +123,16 @@ impl DayOfMonth {
 pub struct NthWeekdayOfMonth {
     nth: NthWeekday,
     weekday: Weekday,
-    month: u32,
+    month: Month,
 }
 
 impl NthWeekdayOfMonth {
     /// Creates a new NthWeekdayOfMonth
-    pub fn new<N: Into<NthWeekday>>(nth: N, weekday: Weekday, month: u32) -> Self {
+    pub fn new<N: Into<NthWeekday>, M: Into<Month>>(nth: N, weekday: Weekday, month: M) -> Self {
         NthWeekdayOfMonth {
             nth: nth.into(),
             weekday,
-            month,
+            month: month.into(),
         }
     }
 
@@ -161,7 +162,7 @@ impl From<NaiveDate> for NthWeekdayOfMonth {
         NthWeekdayOfMonth {
             nth: nth.into(),
             weekday: date.weekday(),
-            month: date.month(),
+            month: date.month().into(),
         }
     }
 }
@@ -193,6 +194,64 @@ impl From<u32> for NthWeekday {
             5 => Fifth,
             _ => Last,
         }
+    }
+}
+
+impl From<NthWeekday> for u32 {
+    fn from(nth: NthWeekday) -> Self {
+        nth as u32
+    }
+}
+
+
+/// A convenience enum for specifiying the month (January = 1)
+#[allow(missing_docs)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Copy, Clone)]
+pub enum Month {
+    January   = 1,
+    February  = 2,
+    March     = 3,
+    April     = 4,
+    May       = 5,
+    June      = 6,
+    July      = 7,
+    August    = 8,
+    September = 9,
+    October   = 10,
+    November  = 11,
+    December  = 12,
+}
+
+impl Month {
+    /// Get the month as a `u32` where January = 0
+    pub fn from_zero(&self) -> u32 {
+        *self as u32 - 1
+    }
+}
+
+impl From<u32> for Month {
+    fn from(u: u32) -> Self {
+        match u {
+             1  => January,
+             2  => February,
+             3  => March,
+             4  => April,
+             5  => May,
+             6  => June,
+             7  => July,
+             8  => August,
+             9  => September,
+             10 => October,
+             11 => November,
+             12 => December,
+             u  => panic!("Invalid month: '{}'", u),
+        }
+    }
+}
+
+impl From<Month> for u32 {
+    fn from(m: Month) -> Self {
+        m as u32
     }
 }
 

@@ -164,14 +164,14 @@ mod test {
     #[test]
     fn jan_dec() {
         use NthWeekday::*;
-        let jan = holiday!("First Wednesday in January", First, Weekday::Wed, 1);
+        let jan = holiday!("First Wednesday in January", First, Weekday::Wed, January);
         let mut jan_iter = jan.into_iter().at(NaiveDate::from_ymd(2020, 1, 1));
         assert_eq!(jan_iter.next(), Some(NaiveDate::from_ymd(2020, 1, 1)));
         assert_eq!(jan_iter.next(), Some(NaiveDate::from_ymd(2021, 1, 6)));
         assert_eq!(jan_iter.next(), Some(NaiveDate::from_ymd(2022, 1, 5)));
         assert_eq!(jan_iter.next(), Some(NaiveDate::from_ymd(2023, 1, 4)));
 
-        let dec = holiday!("Fifth Wednesday in December", Fifth, Weekday::Wed, 12);
+        let dec = holiday!("Fifth Wednesday in December", Fifth, Weekday::Wed, December);
         let mut dec_iter = dec.into_iter().at(NaiveDate::from_ymd(2020, 12, 1));
         assert_eq!(dec_iter.next(), Some(NaiveDate::from_ymd(2020, 12, 30)));
         assert_eq!(dec_iter.next(), Some(NaiveDate::from_ymd(2021, 12, 29)));

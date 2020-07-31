@@ -95,13 +95,13 @@ impl BeforeAfterDate for NthWeekdayOfMonth {
                     check_date = check_date
                         .with_day(1)
                         .expect("invalid day: after::lt")
-                        .with_month(self.month)
+                        .with_month(self.month as u32)
                         .expect("invalid month: after::lt");
                 } else if check_date.month() > self.month {
                     check_date = check_date
                         .with_day(1)
                         .expect("invalid day")
-                        .with_month(self.month)
+                        .with_month(self.month as u32)
                         .expect("invalid month: after::gt")
                         .with_year(check_date.year() + 1)
                         .expect("invalid year: after::gt");
@@ -120,14 +120,14 @@ impl BeforeAfterDate for NthWeekdayOfMonth {
             } else {
                 if check_date.month() > self.month {
                     check_date = check_date
-                        .with_month(self.month)
+                        .with_month(self.month as u32)
                         .expect("invalid month: before::gt")
                         .last_day_of_month();
                 } else if check_date.month() < self.month {
                     check_date = check_date
                         .with_day(1)
                         .expect("invalid day: before::lt")
-                        .with_month(self.month)
+                        .with_month(self.month as u32)
                         .expect("invalid month: before::lt")
                         .with_year(check_date.year() - 1)
                         .expect("invalid year: before::lt")
