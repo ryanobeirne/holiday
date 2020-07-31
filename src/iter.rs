@@ -177,4 +177,17 @@ mod test {
         assert_eq!(dec_iter.next(), Some(NaiveDate::from_ymd(2021, 12, 29)));
         assert_eq!(dec_iter.next(), Some(NaiveDate::from_ymd(2025, 12, 31)));
     }
+
+    /// Assert that Leap Day only occurs in years divisible by 4
+    #[test]
+    fn take_5() {
+        for i in holidays::global::LEAP_DAY
+            .iter()
+            .at(Local::now().naive_local().date())
+            .take(100)
+        {
+            assert_eq!(i.year() % 4, 0);
+        }
+    }
 }
+

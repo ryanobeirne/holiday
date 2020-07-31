@@ -22,3 +22,7 @@ holiday_const!(
     /// December 31
     NEW_YEARS_EVE, "New Year's Eve", December, 31
 );
+holiday_const!(
+    /// Leap Day: February 29
+    LEAP_DAY, "Leap Day", February, 29
+);
