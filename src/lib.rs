@@ -26,6 +26,7 @@ pub mod iter;
 pub use before_after::*;
 pub use iter::*;
 use HolidayDate::*;
+pub use NthWeekday::*;
 
 /// An annually repeating calendar date.
 /// Can be either a fixed date (e.g., April 1) or an nth weekday of the month (e.g., 4th Thursday
@@ -196,8 +197,8 @@ impl From<u32> for NthWeekday {
 }
 
 #[test]
-fn tgives() {
-    let tgives = NthWeekdayOfMonth::new(4, Weekday::Thu, 11);
+fn tgives_nth_weekday_of_month() {
+    let tgives = NthWeekdayOfMonth::new(Fourth, Weekday::Thu, 11);
 
     dbg!(tgives.after_today());
     dbg!(tgives.before_today());
