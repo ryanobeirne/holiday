@@ -15,11 +15,11 @@ holiday_const!(
     CHRISTMAS_EVE, "Christmas Eve", December, 24
 );
 holiday_const!(
-    /// December 25
+    /// Christmas Day: December 25
     CHRISTMAS, "Christmas", December, 25
 );
 holiday_const!(
-    /// December 31
+    /// New Year's Eve: December 31
     NEW_YEARS_EVE, "New Year's Eve", December, 31
 );
 holiday_const!(

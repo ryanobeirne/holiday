@@ -12,7 +12,7 @@ pub struct HolidayIter<'h, H: BeforeAfterDate> {
 }
 
 impl<'h, H: BeforeAfterDate> HolidayIter<'h, H> {
-    /// Set the current date
+    /// Set the current date: the current position of the iterator
     pub fn at(mut self, current_date: NaiveDate) -> Self {
         self.current = current_date.pred();
         self.shift_from(current_date);
@@ -38,7 +38,7 @@ impl<'h, H: BeforeAfterDate> HolidayIter<'h, H> {
 
     /// Set first and last dates for the iterator if a new date is not between the first
     /// and last dates.
-    pub fn shift_from(&mut self, date: NaiveDate) {
+    fn shift_from(&mut self, date: NaiveDate) {
         if date < self.first {
             self.first = date;
         }

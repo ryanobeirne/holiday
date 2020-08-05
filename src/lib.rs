@@ -4,16 +4,23 @@
 //!
 //! A library for defining annually repeating dates and holidays
 //!
+//! ## Create a new Holiday
+//!
 //! ```rust
 //! use holiday::*;
-//! use holiday::holidays::united_states::THANKSGIVING;
 //! use chrono::{Weekday, NaiveDate};
 //!
-//! // Pastover: First Friday in April
-//! let pastover = Holiday::new_nth("Pastover", First, Weekday::Fri, 4);
+//! // Pastover: First Friday in April, an `nth` holiday
+//! let pastover = Holiday::new_nth("Pastover", First, Weekday::Fri, April);
 //! assert_eq!(pastover.in_year(2021), NaiveDate::from_ymd(2021, 4, 2));
 //! assert_eq!(pastover, NaiveDate::from_ymd(2021, 4, 2));
 //! assert_eq!(pastover, NaiveDate::from_ymd(2022, 4, 1));
+//!
+//! // Regular `fixed` holiday
+//! let holiday = Holiday::new_fixed("April 2nd", April, 2);
+//! assert_eq!(holiday.in_year(2021), NaiveDate::from_ymd(2021, 4, 2));
+//! assert_eq!(holiday, NaiveDate::from_ymd(2021, 4, 2));
+//! assert_eq!(holiday, NaiveDate::from_ymd(2022, 4, 2));
 //! ```
 
 use chrono::prelude::*;
@@ -48,7 +55,7 @@ impl<S: ToString> Holiday<S> {
     }
 
     /// Creates a new nth weekday of the month Holiday
-    pub fn new_nth<N: Into<NthWeekday>>(name: S, nth: N, weekday: Weekday, month: u32) -> Self {
+    pub fn new_nth<N: Into<NthWeekday>, M: Into<Month>>(name: S, nth: N, weekday: Weekday, month: M) -> Self {
         Holiday {
             name,
             date: HolidayDate::NthDate(NthWeekdayOfMonth::new(nth, weekday, month)),
