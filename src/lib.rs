@@ -210,7 +210,6 @@ impl From<NthWeekday> for u32 {
     }
 }
 
-
 /// A convenience enum for specifiying the month (January = 1)
 #[allow(missing_docs)]
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Copy, Clone)]

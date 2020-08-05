@@ -57,7 +57,7 @@ impl FromStr for Holiday<&str> {
             .trim_end_matches(" day")
             .trim()
         {
-            "martin luther king jr." => MLKJ_DAY,
+            "martin luther king jr" | "mlkj" => MLKJ_DAY,
             "groundhog" => GROUNDHOG_DAY,
             "superbowl sunday" | "superbowl" => SUPERBOWL_SUNDAY,
             "presidents" => PRESIDENTS_DAY,

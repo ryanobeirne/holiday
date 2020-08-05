@@ -2,7 +2,7 @@ use holiday::*;
 use chrono::*;
 use two_timer::parse;
 
-const USAGE: &str = r"daysto: Command line date counter. How many days until...?
+const USAGE: &str = r#"daysto: Command line date counter. How many days until...?
 
 USAGE:
     daysto <date>
@@ -16,7 +16,9 @@ EXAMPLES:
     daysto Christmas
     daysto Thanksgiving
     daysto '1 day after tomorrow'
-    daysto '30 days ago'";
+    daysto '30 days ago'"#;
+
+const FORMAT: &str = "%a %e %b %Y";
 
 fn main() {
     let args = std::env::args().skip(1).collect::<Vec<_>>();
@@ -24,6 +26,9 @@ fn main() {
     if args.is_empty() {
         eprintln!("{}", USAGE);
         std::process::exit(1);
+    } else if args.contains(&"--help".into()) || args.contains(&"-h".into()) {
+        println!("{}", USAGE);
+        std::process::exit(0);
     }
 
     for arg in args {
@@ -31,13 +36,13 @@ fn main() {
             Ok(holiday) => {
                 let next = holiday.after_today();
                 let days = days_to(next);
-                println!("Days until {}: {}", holiday.name(), days);
+                println!("Days until {} ({}): {}", holiday.name(), next.format(FORMAT), days);
             },
             Err(_) => {
                 match parse(arg.as_str(), None) {
                     Ok((first, _second, _is_range)) => {
                         let days = days_to(first.date());
-                        println!("Days until {}: {}", arg, days);
+                        println!("Days until {}: {}", first.format(FORMAT), days);
                     }
                     Err(_) => eprintln!("Unknown holiday: '{}'", arg),
                 }
