@@ -1,6 +1,6 @@
 [package]
 name = "holiday"
-description = "A rust library for defining annually repeating dates holidays."
+description = "A rust library for defining and iterating over annually repeating dates and holidays."
 version = "0.1.0"
 authors = ["Ryan O'Beirne <ryanobeirne@ryanobeirne.com>"]
 edition = "2018"
