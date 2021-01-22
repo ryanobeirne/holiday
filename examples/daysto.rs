@@ -1,5 +1,4 @@
 use holiday::*;
-use chrono::*;
 use two_timer::parse;
 
 const USAGE: &str = r#"daysto: Command line date counter. How many days until...?
